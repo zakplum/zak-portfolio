@@ -1,0 +1,5 @@
+---
+import Artwork from './Artwork.astro';
+const {project:p}=Astro.props;
+---
+<article class="project-card" data-areas={p.areas.join('|')}><a class="card-art-link" href={`/projects/${p.slug}/`} aria-label={`Explore ${p.title}`}><Artwork kind={p.slug}/><div class="art-topline"><span>0{p.order} / {p.category}</span><span class="card-arrow" aria-hidden="true">→</span></div><span class="card-explore">Explore the project <span aria-hidden="true">→</span></span></a><div class="card-heading"><h3><a href={`/projects/${p.slug}/`}>{p.title}</a></h3><span>{p.category.split(' · ')[1]}</span></div><p>{p.summary}</p><ul class="stack" aria-label="Technologies and methods">{p.stack.map(t=><li>{t}</li>)}</ul></article>

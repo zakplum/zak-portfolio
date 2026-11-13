@@ -1,0 +1,54 @@
+{
+  "slug": "fair-play",
+  "order": 4,
+  "title": "Fair Play",
+  "subtitle": "Reducing the time harmful content stays online.",
+  "category": "NLP · BSc research",
+  "areas": [
+    "Data science",
+    "Software"
+  ],
+  "summary": "Exploring automated moderation to detect abusive football comments sooner and reduce young people’s exposure to harmful content.",
+  "stack": [
+    "Python",
+    "scikit-learn",
+    "XGBoost",
+    "Flask"
+  ],
+  "context": "BSc Computer Science · Goldsmiths, University of London",
+  "role": "Research, dataset preparation, modelling and web prototype",
+  "problem": "Harmful and abusive content can remain visible while it waits for human moderation. I was particularly concerned about young, impressionable people encountering that content. Fair Play aimed to reduce this exposure by exploring an automated moderation tool that could identify harmful comments and enable a faster response than slow human review.",
+  "contribution": "I investigated harmful-language classification as the basis for faster moderation in football discussions. I collected 19,282 comments from r/soccer, used an initial model to assist labelling, manually reviewed the labels and compared Logistic Regression, Random Forest and XGBoost. I also built a Flask-backed interface to make the models accessible through a browser.",
+  "interactionTitle": "What actually improved the model?",
+  "interactionIntro": "Explore the recorded experiment comparisons. Choose a model and a feature set to see how precision, recall and F1 changed for the harmful-comment class.",
+  "decisions": [
+    {
+      "title": "Build a relevant dataset",
+      "body": "Twitter access constraints led me to Reddit. I collected comments from 13 discussion threads over four weeks, keeping the data collection focused on football discussion."
+    },
+    {
+      "title": "Look beyond accuracy",
+      "body": "Only 3,131 of the 19,282 comments were labelled harmful. With an 84/16 class split, a model could look accurate while missing the comments that mattered. I focused on minority-class precision, recall and F1."
+    },
+    {
+      "title": "Let experiments change the approach",
+      "body": "Word2Vec, lexical and topic features underperformed the TF-IDF baseline in these experiments. N-grams and profanity-count features improved the reported F1. SMOTE and random undersampling did not improve the results."
+    },
+    {
+      "title": "Connect research to an interface",
+      "body": "The repository contains a Flask classification endpoint loading exported models and vectorizers. The prototype is a useful starting point; reliable deployment also requires matching training-time preprocessing and feature construction at inference."
+    }
+  ],
+  "limitations": "The aim was faster moderation and reduced exposure to harmful content. The experiments evaluate classification; they do not establish faster real-world removal than human moderators or measure reduced exposure among young people. The dataset comes from a single community and labels involve judgement. Reported recall of around 0.70 means many harmful comments were still missed. The explorer presents recorded results, not live inference or production moderation performance.",
+  "evidence": "Values are transcribed from the feature-comparison tables in the BSc Final Report. The enhanced-feature table reports precision 0.98, recall 0.70 and F1 0.82 for all three models. The abstract separately reports 0.99 precision for Logistic Regression; that later figure is not substituted into this comparison.",
+  "links": [
+    {
+      "label": "Explore the source code",
+      "url": "https://github.com/zakplum/final-year-project"
+    },
+    {
+      "label": "Read the Flask prototype",
+      "url": "https://github.com/zakplum/final-year-project/blob/main/app.py"
+    }
+  ]
+}

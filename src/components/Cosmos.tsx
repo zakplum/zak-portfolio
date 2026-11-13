@@ -1,0 +1,30 @@
+import {useState,useEffect} from 'react';
+type Point={x:number;y:number};
+const stages=[
+ {title:'Input slab',label:'01 / THE OBSERVABLE',body:'Start with fluctuations in 21 cm brightness temperature. In the research, density and ionisation fields were converted into a signal, each plane’s mean was removed, and three adjacent planes were averaged. This illustrated field uses the same sequence, with invented patterns.',note:'Blue: below the slab mean · Pale: above the slab mean'},
+ {title:'Gaussian target',label:'02 / THE SUPERVISION',body:'Selected catalogue halos inside the same slab become equal-amplitude Gaussian keypoints. The research selected the top 5,000 halos per snapshot and used σ = 2 voxels. These small peaks encode locations; their width is not the physical size of a halo.',note:'Training supervision only · The target is not supplied at inference'},
+ {title:'Predicted heatmap',label:'03 / THE MODEL OUTPUT',body:'A U-Net learns to map the input slab to localisation scores. This deliberately imperfect, hand-constructed example has shifted peaks, missing peaks and extra responses. It illustrates the type of output, without running or recreating the trained model.',note:'Synthetic scores · Brightness is not calibrated confidence'},
+ {title:'Matched detections',label:'04 / THE EVALUATION',body:'Peaks are compared with catalogue positions in the same coordinate system. Here, a one-to-one match within four grid units is a true positive. Unmatched peaks are false positives; unmatched target halos are misses. The research used a four-voxel matching radius.',note:'Circles: matched peaks · Crosses: false positives · Pluses: missed halos'}
+];
+function distance(a:Point,b:Point){return Math.hypot(a.x-b.x,a.y-b.y)}
+function makeExample(example:number){
+ const truth=[{x:52,y:60},{x:113,y:47},{x:213,y:64},{x:76,y:143},{x:163,y:131},{x:246,y:171},{x:122,y:232},{x:222,y:252}].map((p,i)=>({x:p.x+Math.sin(i+example)*9,y:p.y+Math.cos(i*2+example)*9}));
+ const peaks=[...truth.slice(0,5).map((p,i)=>({x:p.x+(i%2?2:-2),y:p.y+1,score:.92-i*.09})),{x:41+example*7,y:235,score:.68},{x:260,y:105+example*8,score:.54},{x:191,y:203,score:.43}];
+ const used=new Set<number>();const matches=peaks.map(p=>{let found=-1,best=4;truth.forEach((t,i)=>{const d=distance(p,t);if(!used.has(i)&&d<=best){best=d;found=i}});if(found>=0)used.add(found);return found});
+ const values=Array.from({length:50*50},(_,i)=>{const x=(i%50)*6+3,y=Math.floor(i/50)*6+3;let value=0;for(let depth=-1;depth<=1;depth++){const density=1+.25*Math.sin(x*.065+example+depth*.1)*Math.cos(y*.054)+.18*Math.sin((x+y)*.12+depth*.2);let neutral=1;[{x:80+example*8,y:90,r:42},{x:205,y:157+example*9,r:57},{x:120,y:253,r:32}].forEach(b=>{neutral*=1-.96*Math.exp(-((x-b.x-depth*2)**2+(y-b.y)**2)/(2*b.r*b.r))});value+=density*neutral/3;}return value});
+ const mean=values.reduce((a,b)=>a+b,0)/values.length;const scale=Math.max(...values.map(v=>Math.abs(v-mean)));
+ return {truth,peaks,matches,used,cells:values.map((v,i)=>({x:i%50*6,y:Math.floor(i/50)*6,v:(v-mean)/scale}))};
+}
+export default function Cosmos(){const [ready,setReady]=useState(false);useEffect(()=>setReady(true),[]);const [stage,setStage]=useState(0),[example,setExample]=useState(0);const data=makeExample(example),current=stages[stage];return <div className="experiment cosmos-experiment" inert={!ready}>
+ <div className="experiment-toolbar"><span className="micro">ONE SLAB · FOUR VIEWS</span><span className="evidence-tag">Synthetic concept illustration</span></div>
+ <div className="concept-controls"><p>Follow the same invented region through the pipeline.</p><button className="button secondary" onClick={()=>setExample((example+1)%3)}>Change example →</button></div>
+ <div className="concept-panels">{stages.map((s,index)=><button key={s.title} className={'concept-panel '+(stage===index?'active':'')} aria-pressed={stage===index} onClick={()=>setStage(index)} aria-label={`Explain ${s.title}`}><span className="concept-panel-title"><span>0{index+1}</span>{s.title}</span><svg viewBox="0 0 300 300" role="img" aria-label={`${s.title}: synthetic example ${example+1}`}>
+ <defs><radialGradient id={`heat-${index}`}><stop stopColor="#f9f9f7"/><stop offset=".28" stopColor="#2fb9ff" stopOpacity=".9"/><stop offset="1" stopColor="#2fb9ff" stopOpacity="0"/></radialGradient></defs><rect width="300" height="300" fill="#101b23"/>
+ {(index===0||index===3)&&<g opacity={index===3?.28:1}>{data.cells.map((c,i)=><rect key={i} x={c.x} y={c.y} width="6.1" height="6.1" fill={c.v<0?'#2fb9ff':'#f9f9f7'} opacity={.12+Math.abs(c.v)*.82}/>)}</g>}
+ {index===1&&data.truth.map((p,i)=><circle key={i} cx={p.x} cy={p.y} r="6" fill={`url(#heat-${index})`}/>)}
+ {index===2&&<>{data.peaks.map((p,i)=><g key={i}><ellipse cx={p.x+5} cy={p.y+3} rx="20" ry="10" fill={`url(#heat-${index})`} opacity=".18"/><circle cx={p.x} cy={p.y} r={9+i%3*3} fill={`url(#heat-${index})`} opacity={p.score}/></g>)}</>}
+ {index===3&&<>{data.peaks.map((p,i)=>data.matches[i]>=0?<circle key={i} cx={p.x} cy={p.y} r="5" stroke="#2fb9ff" fill="none" strokeWidth="1.7"/>:<path key={i} d={`M${p.x-4},${p.y-4}l8,8m0,-8l-8,8`} stroke="#ff9b8a" strokeWidth="1.7"/>)}{data.truth.map((p,i)=>!data.used.has(i)&&<path key={i} d={`M${p.x-5},${p.y}h10m-5,-5v10`} stroke="#e8cd7a" strokeWidth="1.7"/>)}</>}
+ </svg><span className="concept-panel-note">{['Mean-subtracted · Three-plane average','Same slab · Equal-amplitude keypoints','Illustrative output · No live model','One-to-one · Four-unit radius'][index]}</span></button>)}</div>
+ <div className="spatial-explanation" aria-live="polite"><span className="micro">{current.label}</span><h3>{current.title}</h3><p>{current.body}</p><small>{current.note}</small>{stage===3&&<p className="concept-counts">This invented example: {data.used.size} matches · {data.peaks.length-data.used.size} false positives · {data.truth.length-data.used.size} misses</p>}</div>
+ <div className="experiment-bottom">Original procedural illustration. No dissertation images, simulation samples or model predictions are used. Illustrative counts are unrelated to the reported research metrics below.</div>
+ </div>}

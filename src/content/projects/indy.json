@@ -1,0 +1,64 @@
+{
+  "slug": "indy",
+  "order": 2,
+  "title": "Indy",
+  "subtitle": "From local data to a community intelligence report.",
+  "category": "Interactive software · Business tools",
+  "areas": [
+    "Software",
+    "Business tools"
+  ],
+  "summary": "Combining local data, API integrations and reporting workflows to explain potential support, opposition and community context.",
+  "stack": [
+    "Python",
+    "React.js",
+    "PostgreSQL",
+    "API integration",
+    "Data integration"
+  ],
+  "context": "Professional experience · Community intelligence",
+  "role": "Application development and reporting workflows",
+  "problem": "Understanding the community around a proposed development means bringing together different kinds of information: potential supporters, local concerns, geography and political context. The challenge is to turn that information into a report that helps people plan engagement.",
+  "contribution": "My work on Indy involved application development, API integration and community intelligence reporting workflows. The report brings an executive summary, potential supporter profiles, a local support map, known objector groups, support themes, political context and resident quotations into one browser-based experience, followed by a summary of what those findings mean.",
+  "interactionTitle": "Every insight should have a trail.",
+  "interactionIntro": "The full report combines summaries, maps, profiles and local context. This smaller, independent demo focuses on one reporting principle: choose a fictional place and follow an insight back to its invented source and limitations.",
+  "decisions": [
+    {
+      "title": "Layer the report for different levels of detail",
+      "body": "The executive summary gives a quick overview, while profiles, mapping, themes and political context let readers explore the detail relevant to their question."
+    },
+    {
+      "title": "Bring different sources into one workflow",
+      "body": "API integration and data integration support a report that combines geographic, demographic and local context. Presenting these together helps readers connect information that would otherwise be spread across separate sources."
+    },
+    {
+      "title": "Keep evidence and interpretation distinct",
+      "body": "Support indicators, resident quotations and contextual information serve different purposes. A readable report needs to distinguish the underlying evidence from the conclusions drawn from it."
+    },
+    {
+      "title": "Design around the next decision",
+      "body": "The report ends with what the findings mean and suggested next steps, connecting the information to practical engagement planning."
+    }
+  ],
+  "limitations": "All places, figures and source descriptions in the interactive walkthrough are fictional. The demo is a new portfolio interface, not the original product. It does not reproduce the original report, employer datasets or private records, and its figures are not findings about real places.",
+  "evidence": "The report structure described here is based on an example output supplied by the author. It demonstrates the breadth and organisation of the product, not independently verified predictive performance. The interactive sources below use invented data.",
+  "links": [],
+  "reportSections": [
+    {
+      "title": "Start with the overall picture",
+      "body": "An executive summary brings the support opportunity, likelihood of organised opposition and a key insight together so readers can orient themselves quickly."
+    },
+    {
+      "title": "Explore who, where and why",
+      "body": "Potential supporter profiles and a local area map help explain where support may come from. Support themes describe the issues that could motivate engagement."
+    },
+    {
+      "title": "Understand the surrounding context",
+      "body": "Known objector groups sit alongside council composition and MP information. Resident quotations add qualitative evidence to the broader picture."
+    },
+    {
+      "title": "Connect findings to a next step",
+      "body": "The closing section draws the findings together and sets out a path from further research to supporter mobilisation and planning-ready evidence."
+    }
+  ]
+}

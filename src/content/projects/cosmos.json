@@ -1,0 +1,46 @@
+{
+  "slug": "cosmos",
+  "order": 3,
+  "title": "Mapping dark matter",
+  "subtitle": "Locating massive halos in simulated 21 cm maps.",
+  "category": "Machine learning · MSc research",
+  "areas": [
+    "Data science"
+  ],
+  "summary": "Investigating the spatial distribution of massive dark-matter halos using simulated 21 cm observations.",
+  "stack": [
+    "Python",
+    "PyTorch",
+    "U-Net",
+    "NumPy",
+    "SciPy",
+    "tools21cm"
+  ],
+  "context": "MSc Data Science · University of Sussex",
+  "role": "Data preparation, model development and experimental evaluation",
+  "problem": "Can a neural network infer the projected positions of massive dark-matter halos from simulated 21 cm brightness-temperature maps? This is a localisation problem: finding individual sources, rather than simply identifying ionised regions.",
+  "contribution": "I built a supervised pipeline that converts simulated density and ionisation fields into mean-subtracted 21 cm maps, aligns them with halo catalogue targets, and trains a U-Net to predict localisation heatmaps. I compared loss functions, target constructions, halo populations, slab depths and architectures, then evaluated independently trained models at 36 redshifts. I also tested whether Monte Carlo dropout could identify unreliable detections.",
+  "interactionTitle": "From a signal to a set of detections.",
+  "interactionIntro": "Follow an invented region through four linked views: a mean-subtracted input slab, aligned Gaussian targets, an illustrative prediction and matched detections. Select a panel to understand its role, or change the synthetic example. The illustration explains the method; the research results are reported separately below.",
+  "decisions": [
+    {
+      "title": "Align the observable and the target",
+      "body": "The final setup averages mean-subtracted brightness-temperature maps across a three-voxel slab. Only selected halos inside that same slab form the two-dimensional target. Training uses matched coeval snapshots; exploratory lightcones were not used as supervised inputs."
+    },
+    {
+      "title": "Learn locations, not halo sizes",
+      "body": "The target uses the 5,000 most massive halos per snapshot, with equal-amplitude Gaussian keypoints of width σ = 2 voxels. The Gaussian width is a training choice, not a physical halo radius. A base U-Net trained with binary cross-entropy predicts the localisation heatmap."
+    },
+    {
+      "title": "Evaluate detections, not just attractive heatmaps",
+      "body": "Local maxima are extracted from predictions and greedily matched to catalogue positions within four voxels. Precision, recall and F1 count successful matches, false positives and missed targets. Thresholds are selected on validation data before held-out evaluation."
+    },
+    {
+      "title": "Test whether uncertainty helps",
+      "body": "I used 50 Monte Carlo dropout passes with Dropout2d probability 0.1. In this setup, pixelwise variance tracked prediction magnitude rather than error, and rejecting the most uncertain detections reduced F1 at every tested rejection fraction."
+    }
+  ],
+  "limitations": "These are idealised simulations from one volume, with spatially separated train, validation and test regions, and one training seed per model. Instrumental noise, beam effects, foreground residuals and peculiar velocities were absent. A fixed top-5,000 selection changes the physical mass threshold across redshift. The interactive illustration uses invented fields, targets and predictions. It is not a live model, actual simulation output or a reconstruction of observed sky data. F1 depends on the target definition and four-voxel matching rule.",
+  "evidence": "At z = 7.139, the held-out model achieved F1 0.306, precision 0.237 and recall 0.431. Reported baseline F1 scores were 0.245 for bubble tracing and 0.043 for a random field. The bubble-tracer threshold reached the edge of its search grid, so that comparison is provisional. Across 36 independently trained snapshot models, the nominal maximum was F1 0.426 at z = 8.762, when only about 8% of the volume was ionised. This suggests density-associated structure may contribute to localisation; it does not establish the mechanism.",
+  "links": []
+}
