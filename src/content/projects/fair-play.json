@@ -50,5 +50,16 @@
       "label": "Read the Flask prototype",
       "url": "https://github.com/zakplum/final-year-project/blob/main/app.py"
     }
-  ]
+  ],
+  "highlights": [
+    {
+      "value": "19,282",
+      "label": "Comments collected"
+    },
+    {
+      "value": "0.82",
+      "label": "Reported enhanced-feature F1"
+    }
+  ],
+  "highlightNote": "Recorded dissertation results. Evaluation details and limitations are explained below."
 }

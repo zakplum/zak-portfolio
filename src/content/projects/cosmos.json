@@ -42,5 +42,16 @@
   ],
   "limitations": "These are idealised simulations from one volume, with spatially separated train, validation and test regions, and one training seed per model. Instrumental noise, beam effects, foreground residuals and peculiar velocities were absent. A fixed top-5,000 selection changes the physical mass threshold across redshift. The interactive illustration uses invented fields, targets and predictions. It is not a live model, actual simulation output or a reconstruction of observed sky data. F1 depends on the target definition and four-voxel matching rule.",
   "evidence": "At z = 7.139, the held-out model achieved F1 0.306, precision 0.237 and recall 0.431. Reported baseline F1 scores were 0.245 for bubble tracing and 0.043 for a random field. The bubble-tracer threshold reached the edge of its search grid, so that comparison is provisional. Across 36 independently trained snapshot models, the nominal maximum was F1 0.426 at z = 8.762, when only about 8% of the volume was ionised. This suggests density-associated structure may contribute to localisation; it does not establish the mechanism.",
-  "links": []
+  "links": [],
+  "highlights": [
+    {
+      "value": "0.306",
+      "label": "Held-out F1 at z = 7.139"
+    },
+    {
+      "value": "36",
+      "label": "Independently trained redshift models"
+    }
+  ],
+  "highlightNote": "Recorded dissertation results. Evaluation details and limitations are explained below."
 }

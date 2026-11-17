@@ -1,0 +1,16 @@
+---
+const {kind}=Astro.props;
+const radar=kind==='radar';
+const stages=radar?[
+ ['Discover','Planning data API','Fetch relevant planning applications.'],
+ ['Process & store','Python · FastAPI · PostgreSQL','Enrich records, track missing fields and persist updates.'],
+ ['Review','React.js interface','Inspect and correct records before handoff.'],
+ ['Follow up','HubSpot API','Transfer qualified leads into the CRM.']
+]:[
+ ['Bring sources together','Records · external APIs','Combine supporter records and local context.'],
+ ['Prepare & store','Python · FastAPI · PostgreSQL','Clean, organise and retrieve location-specific information.'],
+ ['Request & explore','React.js interface','Choose a location and navigate the reporting experience.'],
+ ['Deliver the report','Backend reporting workflow','Present summaries, mapping, themes and political context.']
+];
+---
+<section class="architecture" aria-labelledby={`architecture-${kind}`}><p class="eyebrow">HOW IT FITS TOGETHER</p><h2 id={`architecture-${kind}`}>From data to a useful workflow.</h2><p class="architecture-intro">A simplified view of the original application’s data flow. Vercel hosts the frontend; Railway hosts the backend and PostgreSQL. The portfolio walkthrough runs independently with fictional data.</p><ol class="architecture-flow">{stages.map(([title,tech,body],i) => (<li><span class="micro">0{i+1}</span><h3>{title}</h3><strong>{tech}</strong><p>{body}</p>{(i < stages.length - 1) && <span class="flow-arrow" aria-hidden="true">→</span>}</li>))}</ol></section>

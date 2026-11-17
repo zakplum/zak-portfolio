@@ -60,5 +60,16 @@
       "title": "Connect findings to a next step",
       "body": "The closing section draws the findings together and sets out a path from further research to supporter mobilisation and planning-ready evidence."
     }
-  ]
+  ],
+  "highlights": [
+    {
+      "value": "≈14,000",
+      "label": "Supporter records underpinning the platform"
+    },
+    {
+      "value": "End to end",
+      "label": "Requirements, deployment and staff training"
+    }
+  ],
+  "highlightNote": "Approximate project scale from my CV; the portfolio demo uses fictional data."
 }

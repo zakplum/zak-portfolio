@@ -41,3 +41,11 @@ To add a project, create a JSON file following the collection schema with a uniq
 ## Demo content
 
 Radar and Indy use fictional data and independent interfaces. They contain no employer source code or credentials. Fair Play presents recorded dissertation experiment results. Mapping dark matter uses an original synthetic concept illustration; actual research metrics are explained separately in its case study. No dissertation images are included.
+
+## CV, contact and social previews
+
+The public CV is `public/downloads/zak-plumridge-cv.pdf` and has the phone number removed. Check both visible text and PDF extraction before replacing it. Email links use the public contact address from the CV.
+
+The dedicated About page is `src/pages/about.astro`. Project highlights live in each project JSON. Architecture diagrams live in `src/components/Architecture.astro` and summarise the original apps; they are not connections to the fictional portfolio demos.
+
+Social images live in `public/og/` (1200 × 630 PNGs). The canonical origin is set in `src/layouts/Base.astro`; update it when a custom domain is connected. Metadata uses this origin for canonical and Open Graph URLs.
